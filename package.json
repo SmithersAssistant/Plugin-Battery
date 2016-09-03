@@ -1,8 +1,13 @@
 {
   "name": "smithers-battery",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A battery plugin for the Smithers Assistant",
   "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SmithersAssistant/Plugin-Battery.git"
+  },
+  "homepage": "https://github.com/SmithersAssistant/Plugin-Battery",
   "keywords": [
     "smithers",
     "assistant",
