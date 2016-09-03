@@ -1,9 +1,7 @@
-import React from 'react'
-
 const BATTERY_COMPONENT = 'com.robinmalfait.battery'
 
 export default robot => {
-
+  const {React} = robot.dependencies;
   const {Blank} = robot.cards
   const {Icon, StyleSheet, css, color} = robot.UI
 

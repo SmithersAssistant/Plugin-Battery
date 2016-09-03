@@ -6,17 +6,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 var BATTERY_COMPONENT = 'com.robinmalfait.battery';
 
 exports.default = function (robot) {
+  var React = robot.dependencies.React;
   var Blank = robot.cards.Blank;
   var _robot$UI = robot.UI;
   var Icon = _robot$UI.Icon;
@@ -55,7 +50,7 @@ exports.default = function (robot) {
     }
   });
 
-  var Battery = _react2.default.createClass({
+  var Battery = React.createClass({
     displayName: 'Battery',
     getInitialState: function getInitialState() {
       return {
@@ -109,23 +104,23 @@ exports.default = function (robot) {
       var percentage = Math.round(battery.level * 100);
       var status = Math.max(0, Math.round(battery.level * 100 / 20) - 1);
 
-      return _react2.default.createElement(
+      return React.createElement(
         Blank,
         _extends({
           title: 'Battery Level'
         }, other),
-        _react2.default.createElement(Icon, { className: css(styles.battery, styles['battery' + status]), icon: 'battery-' + status + ' fa-5x' }),
-        _react2.default.createElement(
+        React.createElement(Icon, { className: css(styles.battery, styles['battery' + status]), icon: 'battery-' + status + ' fa-5x' }),
+        React.createElement(
           'h3',
           null,
           'Battery level at ',
           percentage,
           '%'
         ),
-        battery.charging && _react2.default.createElement(
+        battery.charging && React.createElement(
           'span',
           { className: css(styles.charging) },
-          _react2.default.createElement(Icon, { className: css(styles.chargingIcon), icon: 'bolt' }),
+          React.createElement(Icon, { className: css(styles.chargingIcon), icon: 'bolt' }),
           ' Your device is currently charging'
         )
       );
@@ -133,12 +128,12 @@ exports.default = function (robot) {
     renderNoInformation: function renderNoInformation() {
       var other = _objectWithoutProperties(this.props, []);
 
-      return _react2.default.createElement(
+      return React.createElement(
         Blank,
         _extends({
           title: 'Battery Level'
         }, other),
-        _react2.default.createElement(
+        React.createElement(
           'h3',
           null,
           'Waiting for information....'
