@@ -46,6 +46,8 @@ export default robot => {
     },
     componentDidMount () {
       navigator.getBattery().then(battery => {
+        this.battery = battery
+
         this.setState({
           battery: {
             level: battery.level,
@@ -53,6 +55,31 @@ export default robot => {
           },
           hasInformation: true
         })
+
+        battery.addEventListener('chargingchange', this.chargingChanged)
+        battery.addEventListener('levelchange', this.levelChanged)
+      })
+    },
+    componentWillUnmount () {
+      if (this.battery) {
+        this.battery.removeEventListener('chargingchange', this.chargingChanged)
+        this.battery.removeEventListener('levelchange', this.levelChanged)
+      }
+    },
+    chargingChanged() {
+      this.setState({
+        battery: {
+          ...this.state.battery,
+          charging: this.battery.charging
+        }
+      })
+    },
+    levelChanged() {
+      this.setState({
+        battery: {
+          ...this.state.battery,
+          level: this.battery.level
+        }
       })
     },
     renderBattery () {

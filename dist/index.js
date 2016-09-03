@@ -67,6 +67,8 @@ exports.default = function (robot) {
       var _this = this;
 
       navigator.getBattery().then(function (battery) {
+        _this.battery = battery;
+
         _this.setState({
           battery: {
             level: battery.level,
@@ -74,6 +76,29 @@ exports.default = function (robot) {
           },
           hasInformation: true
         });
+
+        battery.addEventListener('chargingchange', _this.chargingChanged);
+        battery.addEventListener('levelchange', _this.levelChanged);
+      });
+    },
+    componentWillUnmount: function componentWillUnmount() {
+      if (this.battery) {
+        this.battery.removeEventListener('chargingchange', this.chargingChanged);
+        this.battery.removeEventListener('levelchange', this.levelChanged);
+      }
+    },
+    chargingChanged: function chargingChanged() {
+      this.setState({
+        battery: _extends({}, this.state.battery, {
+          charging: this.battery.charging
+        })
+      });
+    },
+    levelChanged: function levelChanged() {
+      this.setState({
+        battery: _extends({}, this.state.battery, {
+          level: this.battery.level
+        })
       });
     },
     renderBattery: function renderBattery() {
