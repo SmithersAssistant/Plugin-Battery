@@ -6,6 +6,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+var _styles = require('./styles');
+
+var _styles2 = _interopRequireDefault(_styles);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 var BATTERY_COMPONENT = 'com.robinmalfait.battery';
@@ -15,40 +21,10 @@ exports.default = function (robot) {
   var Blank = robot.cards.Blank;
   var _robot$UI = robot.UI;
   var Icon = _robot$UI.Icon;
-  var StyleSheet = _robot$UI.StyleSheet;
-  var css = _robot$UI.css;
-  var color = _robot$UI.color;
+  var classNames = _robot$UI.classNames;
+  var enhance = robot.enhance;
+  var withStyles = robot.withStyles;
 
-
-  var styles = StyleSheet.create({
-    battery: {
-      float: 'left',
-      transform: 'rotate(270deg)'
-    },
-    battery0: {
-      color: color('red')
-    },
-    battery1: {
-      color: color('orange')
-    },
-    battery2: {
-      color: color('yellow')
-    },
-    battery3: {
-      color: color('light-green')
-    },
-    battery4: {
-      color: color('green')
-    },
-    charging: {
-      marginTop: 20,
-      display: 'block'
-    },
-    chargingIcon: {
-      color: color('yellow', 700),
-      fontSize: 22
-    }
-  });
 
   var Battery = React.createClass({
     displayName: 'Battery',
@@ -97,7 +73,10 @@ exports.default = function (robot) {
       });
     },
     renderBattery: function renderBattery() {
-      var other = _objectWithoutProperties(this.props, []);
+      var _props = this.props;
+      var styles = _props.styles;
+
+      var other = _objectWithoutProperties(_props, ['styles']);
 
       var battery = this.state.battery;
 
@@ -109,7 +88,7 @@ exports.default = function (robot) {
         _extends({
           title: 'Battery Level'
         }, other),
-        React.createElement(Icon, { className: css(styles.battery, styles['battery' + status]), icon: 'battery-' + status + ' fa-5x' }),
+        React.createElement(Icon, { className: classNames(styles.battery, styles['battery' + status]), icon: 'battery-' + status + ' fa-5x' }),
         React.createElement(
           'h3',
           null,
@@ -119,8 +98,8 @@ exports.default = function (robot) {
         ),
         battery.charging && React.createElement(
           'span',
-          { className: css(styles.charging) },
-          React.createElement(Icon, { className: css(styles.chargingIcon), icon: 'bolt' }),
+          { className: styles.charging },
+          React.createElement(Icon, { className: styles.chargingIcon, icon: 'bolt' }),
           ' Your device is currently charging'
         )
       );
@@ -148,7 +127,7 @@ exports.default = function (robot) {
     }
   });
 
-  robot.registerComponent(Battery, BATTERY_COMPONENT);
+  robot.registerComponent(enhance(Battery, [withStyles(_styles2.default)]), BATTERY_COMPONENT);
 
   robot.listen(/^battery level$/, {
     description: 'Show the battery level',

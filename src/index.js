@@ -1,39 +1,12 @@
+import styles from './styles'
+
 const BATTERY_COMPONENT = 'com.robinmalfait.battery'
 
 export default robot => {
-  const {React} = robot.dependencies;
-  const {Blank} = robot.cards
-  const {Icon, StyleSheet, css, color} = robot.UI
-
-  const styles = StyleSheet.create({
-    battery: {
-      float: 'left',
-      transform: 'rotate(270deg)'
-    },
-    battery0: {
-      color: color('red')
-    },
-    battery1: {
-      color: color('orange')
-    },
-    battery2: {
-      color: color('yellow')
-    },
-    battery3: {
-      color: color('light-green')
-    },
-    battery4: {
-      color: color('green')
-    },
-    charging: {
-      marginTop: 20,
-      display: 'block'
-    },
-    chargingIcon: {
-      color: color('yellow', 700),
-      fontSize: 22
-    }
-  })
+  const { React } = robot.dependencies;
+  const { Blank } = robot.cards
+  const { Icon, classNames } = robot.UI
+  const { enhance, withStyles } = robot
 
   const Battery = React.createClass({
     getInitialState () {
@@ -81,9 +54,9 @@ export default robot => {
       })
     },
     renderBattery () {
-      const {...other} = this.props
-      const {battery} = this.state
-      const percentage = Math.round(battery.level * 100)      
+      const { styles, ...other } = this.props
+      const { battery } = this.state
+      const percentage = Math.round(battery.level * 100)
       const status = Math.max(0, Math.round(battery.level * 100 / 20) - 1)
 
       return (
@@ -91,39 +64,40 @@ export default robot => {
           title='Battery Level'
           {...other}
         >
-          <Icon className={css(styles.battery, styles[`battery${status}`])} icon={`battery-${status} fa-5x`} />        
+          <Icon className={classNames(styles.battery, styles[`battery${status}`])} icon={`battery-${status} fa-5x`}/>
           <h3>Battery level at {percentage}%</h3>
           {battery.charging && (
-            <span className={css(styles.charging)}>
-              <Icon className={css(styles.chargingIcon)} icon='bolt' /> Your device is currently charging 
+            <span className={styles.charging}>
+              <Icon className={styles.chargingIcon} icon='bolt'/> Your device is currently charging
             </span>
           )}
         </Blank>
       )
     },
     renderNoInformation () {
-      const {...other} = this.props
+      const { ...other } = this.props
 
       return (
         <Blank
           title='Battery Level'
-           {...other}
+          {...other}
         >
           <h3>Waiting for information....</h3>
         </Blank>
       )
     },
     render () {
-      const {hasInformation} = this.state
+      const { hasInformation } = this.state
 
       return hasInformation
         ? this.renderBattery()
         : this.renderNoInformation()
     }
   })
-  
 
-  robot.registerComponent(Battery, BATTERY_COMPONENT);
+  robot.registerComponent(enhance(Battery, [
+    withStyles(styles)
+  ]), BATTERY_COMPONENT);
 
   robot.listen(/^battery level$/, {
     description: 'Show the battery level',
