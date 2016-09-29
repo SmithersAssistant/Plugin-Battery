@@ -1,6 +1,6 @@
 {
   "name": "smithers-battery",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A battery plugin for the Smithers Assistant",
   "main": "dist/index.js",
   "repository": {

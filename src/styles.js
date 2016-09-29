@@ -13,7 +13,7 @@ export default ({ color }) => ({
     color: color('yellow')
   },
   battery3: {
-    color: color('light-green')
+    color: color('lightGreen')
   },
   battery4: {
     color: color('green')
